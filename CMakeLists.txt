@@ -1103,26 +1103,44 @@ ELSE()
   SET(EMGUCV_MINI_RELEASE_NOTE "")
 ENDIF()
 
-SET(EMGUCV_NUGET_ID "Emgu.CV")
-SET(EMGUCV_BITMAP_NUGET_ID "Emgu.CV.Bitmap")
-SET(EMGUCV_WPF_NUGET_ID "Emgu.CV.Wpf")
-SET(EMGUCV_MODELS_NUGET_ID "Emgu.CV.Models")
-SET(EMGUCV_UI_NUGET_ID "Emgu.CV.UI")
-SET(EMGUCV_WINDOWS_NUGET_ID "${EMGUCV_NUGET_ID}.runtime${EMGUCV_RUNTIME_EXTRA_TAG}.windows")
-SET(EMGU_WINDOWS_MSVCRT_X86_NUGET_ID "Emgu.runtime.windows.msvc.rt.x86")
-SET(EMGU_WINDOWS_MSVCRT_X64_NUGET_ID "Emgu.runtime.windows.msvc.rt.x64")
-SET(EMGU_WINDOWS_MSVCRT_ARM64_NUGET_ID "Emgu.runtime.windows.msvc.rt.arm64")
-SET(EMGU_ZLIBWAPI_ID "Emgu.runtime.windows.zlibwapi.x64")
+SET(EMGUCV_NUGET_ID_PREFIX "Z.")
+SET(EMGUCV_NUGET_ID_OLD "Emgu.CV")
+SET(EMGUCV_NUGET_ID "${EMGUCV_NUGET_ID_PREFIX}${EMGUCV_NUGET_ID_OLD}")
+SET(EMGUCV_BITMAP_NUGET_ID_OLD "Emgu.CV.Bitmap")
+SET(EMGUCV_BITMAP_NUGET_ID "${EMGUCV_NUGET_ID_PREFIX}${EMGUCV_BITMAP_NUGET_ID_OLD}")
+SET(EMGUCV_WPF_NUGET_ID_OLD "Emgu.CV.Wpf")
+SET(EMGUCV_WPF_NUGET_ID "${EMGUCV_NUGET_ID_PREFIX}${EMGUCV_WPF_NUGET_ID_OLD}")
+SET(EMGUCV_MODELS_NUGET_ID_OLD "Emgu.CV.Models")
+SET(EMGUCV_MODELS_NUGET_ID "${EMGUCV_NUGET_ID_PREFIX}${EMGUCV_MODELS_NUGET_ID_OLD}")
+SET(EMGUCV_UI_NUGET_ID_OLD "Emgu.CV.UI")
+SET(EMGUCV_UI_NUGET_ID "${EMGUCV_NUGET_ID_PREFIX}${EMGUCV_UI_NUGET_ID_OLD}")
+SET(EMGUCV_WINDOWS_NUGET_ID_OLD "${EMGUCV_NUGET_ID_OLD}.runtime${EMGUCV_RUNTIME_EXTRA_TAG}.windows")
+SET(EMGUCV_WINDOWS_NUGET_ID "${EMGUCV_NUGET_ID_PREFIX}${EMGUCV_WINDOWS_NUGET_ID_OLD}")
+SET(EMGU_WINDOWS_MSVCRT_X86_NUGET_ID_OLD "Emgu.runtime.windows.msvc.rt.x86")
+SET(EMGU_WINDOWS_MSVCRT_X86_NUGET_ID "${EMGUCV_NUGET_ID_PREFIX}${EMGU_WINDOWS_MSVCRT_X86_NUGET_ID_OLD}")
+SET(EMGU_WINDOWS_MSVCRT_X64_NUGET_ID_OLD "Emgu.runtime.windows.msvc.rt.x64")
+SET(EMGU_WINDOWS_MSVCRT_X64_NUGET_ID "${EMGUCV_NUGET_ID_PREFIX}${EMGU_WINDOWS_MSVCRT_X64_NUGET_ID_OLD}")
+SET(EMGU_WINDOWS_MSVCRT_ARM64_NUGET_ID_OLD "Emgu.runtime.windows.msvc.rt.arm64")
+SET(EMGU_WINDOWS_MSVCRT_ARM64_NUGET_ID "${EMGUCV_NUGET_ID_PREFIX}${EMGU_WINDOWS_MSVCRT_ARM64_NUGET_ID_OLD}")
+SET(EMGU_ZLIBWAPI_ID_OLD "Emgu.runtime.windows.zlibwapi.x64")
+SET(EMGU_ZLIBWAPI_ID "${EMGUCV_NUGET_ID_PREFIX}${EMGU_ZLIBWAPI_ID_OLD}")
+
 SET(EMGU_ZLIBWAPI_VERSION "1.2.3")
 
 SET(NUGET_EMGU_URL "https://www.emgu.com")
 
 IF(WITH_CUDA)
+	SET(EMGUCV_WINDOWS_NUGET_ID_OLD "${EMGUCV_WINDOWS_NUGET_ID_OLD}.cuda")
 	SET(EMGUCV_WINDOWS_NUGET_ID "${EMGUCV_WINDOWS_NUGET_ID}.cuda")
-	SET(EMGU_WINDOWS_CUDA_NUGET_ID "Emgu.runtime.windows.cuda")
+	SET(EMGU_WINDOWS_CUDA_NUGET_ID_OLD "Emgu.runtime.windows.cuda")
+	SET(EMGU_WINDOWS_CUDA_NUGET_ID "${EMGUCV_NUGET_ID_PREFIX}${EMGU_WINDOWS_CUDA_NUGET_ID_OLD}")
+	SET(EMGU_CUDART_NUGET_ID_OLD "${EMGU_WINDOWS_CUDA_NUGET_ID_OLD}.rt")
 	SET(EMGU_CUDART_NUGET_ID "${EMGU_WINDOWS_CUDA_NUGET_ID}.rt")
+	SET(EMGU_CUDA_BLAS_NUGET_ID_OLD "${EMGU_WINDOWS_CUDA_NUGET_ID_OLD}.blas")
 	SET(EMGU_CUDA_BLAS_NUGET_ID "${EMGU_WINDOWS_CUDA_NUGET_ID}.blas")
+	SET(EMGU_CUDA_BLAS_LT_NUGET_ID_OLD "${EMGU_CUDA_BLAS_NUGET_ID_OLD}.lt")
 	SET(EMGU_CUDA_BLAS_LT_NUGET_ID "${EMGU_CUDA_BLAS_NUGET_ID}.lt")
+
 	SET(EMGU_NPP_NUGET_ID "${EMGU_WINDOWS_CUDA_NUGET_ID}.npp")
 	SET(EMGU_CUFFT_NUGET_ID "${EMGU_WINDOWS_CUDA_NUGET_ID}.fft")
 	SET(EMGU_CUDNN_NUGET_ID "${EMGU_WINDOWS_CUDA_NUGET_ID}.dnn")
@@ -1205,13 +1223,28 @@ IF(HAVE_WINDESKTOP_X64)
 	SET(EMGUCV_WINDOWS_NUGET_FILE_LIST "${EMGUCV_WINDOWS_NUGET_FILE_LIST} <file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\*.json\" target=\"runtimes\\win-x64\\native\" />")
 	SET(EMGUCV_WINDOWS_NUGET_FILE_LIST "${EMGUCV_WINDOWS_NUGET_FILE_LIST} <file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\*.elf\" target=\"runtimes\\win-x64\\native\" />")
 	SET(EMGUCV_WINDOWS_NUGET_FILE_LIST "${EMGUCV_WINDOWS_NUGET_FILE_LIST} <file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\*.mvcmd\" target=\"runtimes\\win-x64\\native\" />")
+
+   	SET(EMGUCV_WINDOWS_NUGET_FILE_LIST "${EMGUCV_WINDOWS_NUGET_FILE_LIST} <file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\*.dll\" exclude=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\cu*.dll;..\\..\\..\\libs\\runtimes\\win-x64\\native\\npp*.dll;..\\..\\..\\libs\\runtimes\\win-x64\\native\\concrt*.dll;..\\..\\..\\libs\\runtimes\\win-x64\\native\\msvcp*.dll;..\\..\\..\\libs\\runtimes\\win-x64\\native\\vcruntime*.dll;..\\..\\..\\libs\\runtimes\\win-x64\\native\\vccorlib*.dll\" 
+	target=\"lib\\net48\" />")
+	SET(EMGUCV_WINDOWS_NUGET_FILE_LIST "${EMGUCV_WINDOWS_NUGET_FILE_LIST} <file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\*.xml\" target=\"lib\\net48\" />")
+	SET(EMGUCV_WINDOWS_NUGET_FILE_LIST "${EMGUCV_WINDOWS_NUGET_FILE_LIST} <file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\*.json\" target=\"lib\\net48\" />")
+	SET(EMGUCV_WINDOWS_NUGET_FILE_LIST "${EMGUCV_WINDOWS_NUGET_FILE_LIST} <file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\*.elf\" target=\"lib\\net48\"/>")
+	SET(EMGUCV_WINDOWS_NUGET_FILE_LIST "${EMGUCV_WINDOWS_NUGET_FILE_LIST} <file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\*.mvcmd\" target=\"lib\\net48\" />")
+
+
 	SET(EMGUCV_WINDOWS_NUGET_FILE_LIST "${EMGUCV_WINDOWS_NUGET_FILE_LIST} <file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\version_string.inc\" target=\"docs\\build_info_x64.inc\" />")
 	SET(EMGU_WINDOWS_MSVCRT_X64_NUGET_TITLE "MSVC x64 runtime for windows")
 	SET(EMGU_WINDOWS_MSVCRT_X64_NUGET_FILE_LIST "${EMGU_WINDOWS_MSVCRT_X64_NUGET_FILE_LIST} 
 	<file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\concrt*.dll\" target=\"runtimes\\win-x64\\native\" /> 
 	<file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\msvcp*.dll\" target=\"runtimes\\win-x64\\native\" /> 
 	<file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\vcruntime*.dll\" target=\"runtimes\\win-x64\\native\" />     
-	<file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\vccorlib*.dll\" target=\"runtimes\\win-x64\\native\" />     
+	<file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\vccorlib*.dll\" target=\"runtimes\\win-x64\\native\" />  
+
+	<file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\concrt*.dll\" target=\"lib\\net48\" /> 
+	<file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\msvcp*.dll\" target=\"lib\\net48\" /> 
+	<file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\vcruntime*.dll\" target=\"lib\\net48\" />     
+	<file src=\"..\\..\\..\\libs\\runtimes\\win-x64\\native\\vccorlib*.dll\" target=\"lib\\net48\" />  
+   
 	<file src=\"..\\..\\..\\miscellaneous\\nuget_icon.png\" target=\"icon.png\" />
     <file src=\"..\\..\\..\\${EMGUCV_LICENSE_FILE}\" target=\"\" />")
 	
@@ -1730,17 +1763,17 @@ IF(WITH_CUDA)
 	#MESSAGE(STATUS "<<<<<<<<<<<<<<<< CUDA_VERSION_NUMERIC_ONLY: ${CUDA_VERSION_NUMERIC_ONLY} >>>>>>>>>>>>>>>>>>>>>> ")
 	
 	#CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Emgu.CV.runtime.windows.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/Emgu.CV.runtime.windows/Package.nuspec)
-	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_ZLIBWAPI_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_ZLIBWAPI_ID}/Package.nuspec)
-	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUFFT_NUGET_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUFFT_NUGET_ID}/Package.nuspec)
-	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDNN_NUGET_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDNN_NUGET_ID}/Package.nuspec)
-	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDNN_ADV_NUGET_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDNN_ADV_NUGET_ID}/Package.nuspec)
-	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDNN_CNN_INFER_NUGET_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDNN_CNN_INFER_NUGET_ID}/Package.nuspec)
-	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDNN_CNN_TRAIN_NUGET_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDNN_CNN_TRAIN_NUGET_ID}/Package.nuspec)
-	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDNN_OPS_NUGET_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDNN_OPS_NUGET_ID}/Package.nuspec)
-	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_NPP_NUGET_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_NPP_NUGET_ID}/Package.nuspec)
-	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDART_NUGET_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDART_NUGET_ID}/Package.nuspec)
-	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDA_BLAS_NUGET_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDA_BLAS_NUGET_ID}/Package.nuspec)
-	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDA_BLAS_LT_NUGET_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDA_BLAS_LT_NUGET_ID}/Package.nuspec)
+	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_ZLIBWAPI_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_ZLIBWAPI_ID}/Package.nuspec)
+	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUFFT_NUGET_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUFFT_NUGET_ID}/Package.nuspec)
+	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDNN_NUGET_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDNN_NUGET_ID}/Package.nuspec)
+	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDNN_ADV_NUGET_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDNN_ADV_NUGET_ID}/Package.nuspec)
+	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDNN_CNN_INFER_NUGET_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDNN_CNN_INFER_NUGET_ID}/Package.nuspec)
+	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDNN_CNN_TRAIN_NUGET_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDNN_CNN_TRAIN_NUGET_ID}/Package.nuspec)
+	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDNN_OPS_NUGET_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDNN_OPS_NUGET_ID}/Package.nuspec)
+	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_NPP_NUGET_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_NPP_NUGET_ID}/Package.nuspec)
+	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDART_NUGET_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDART_NUGET_ID}/Package.nuspec)
+	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDA_BLAS_NUGET_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDA_BLAS_NUGET_ID}/Package.nuspec)
+	CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_CUDA_BLAS_LT_NUGET_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_CUDA_BLAS_LT_NUGET_ID}/Package.nuspec)
 ENDIF()
 
 IF(HAVE_WINDESKTOP_X86)
@@ -1971,15 +2004,15 @@ IF(HAVE_WINSTORE_10)
 ENDIF()
 
 IF(HAVE_WINDESKTOP_X86)
-  CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_WINDOWS_MSVCRT_X86_NUGET_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_WINDOWS_MSVCRT_X86_NUGET_ID}/Package.nuspec)
+  CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_WINDOWS_MSVCRT_X86_NUGET_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_WINDOWS_MSVCRT_X86_NUGET_ID_OLD}/Package.nuspec)
 ENDIF()
 
 IF(HAVE_WINDESKTOP_X64)
-  CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_WINDOWS_MSVCRT_X64_NUGET_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_WINDOWS_MSVCRT_X64_NUGET_ID}/Package.nuspec)
+  CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_WINDOWS_MSVCRT_X64_NUGET_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_WINDOWS_MSVCRT_X64_NUGET_ID_OLD}/Package.nuspec)
 ENDIF()
 
 IF(HAVE_WINDESKTOP_ARM64)
-  CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_WINDOWS_MSVCRT_ARM64_NUGET_ID}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_WINDOWS_MSVCRT_ARM64_NUGET_ID}/Package.nuspec)  
+  CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EMGU_WINDOWS_MSVCRT_ARM64_NUGET_ID_OLD}.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/platforms/nuget/${EMGU_WINDOWS_MSVCRT_ARM64_NUGET_ID_OLD}/Package.nuspec)  
 ENDIF()
 
 IF(HAVE_WINDESKTOP_X86 OR HAVE_WINDESKTOP_X64 OR HAVE_WINDESKTOP_ARM64)
