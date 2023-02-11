@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Emgu.CV</AssemblyName>
+    <AssemblyName>Z.Emgu.CV</AssemblyName>
 	<TargetName>$(AssemblyName)</TargetName>
     <RootNamespace>Emgu.CV</RootNamespace>
     <SignAssembly>true</SignAssembly>
